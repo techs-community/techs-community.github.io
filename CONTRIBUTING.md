@@ -7,9 +7,9 @@ pull request.
 ## 1. Pré-requisitos
 
 - Node.js 22 (LTS) e npm.
-- Uma conta no GitHub que seja membro da organização
-  [`techs-community`](https://github.com/techs-community) — a autoria é vinculada
-  ao seu handle do GitHub.
+- Uma conta no GitHub — a autoria é vinculada ao seu handle. Se ainda não fizer
+  parte da comunidade, [solicite o
+  acesso](https://github.com/techs-community/.github/issues/new?template=solicitar-acesso.yml).
 
 ## 2. Instalação
 
@@ -77,6 +77,10 @@ git push -u origin artigo/<slug>
 
 Abra o pull request para `main`. Após revisão editorial e merge, a publicação no
 GitHub Pages é automática.
+
+O template do PR apresenta o checklist editorial. A rotina **Validar pull
+request** executa `npm run verify` e `npm run build` automaticamente; aguarde o
+check `Qualidade e build` ficar verde antes de solicitar a aprovação final.
 
 ## Convenções editoriais
 
