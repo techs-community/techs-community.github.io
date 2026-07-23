@@ -42,20 +42,8 @@ const formatDate = (date: Date) =>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={SITE.description} />
-    <meta name="theme-color" content="#14140f" />
+    <meta name="theme-color" content="#e7e0d2" />
     <title>{SITE.title} — Tecnologia compartilhada em português</title>
-    <script is:inline>
-      (() => {
-        try {
-          const saved = localStorage.getItem("techs-theme");
-          if (saved === "light" || saved === "dark") {
-            document.documentElement.classList.add(saved);
-          }
-        } catch {
-          // A preferência do sistema continua funcionando sem acesso ao storage.
-        }
-      })();
-    </script>
   </head>
   <body>
     <a class="skip-link" href="#conteudo">Pular para o conteúdo</a>
@@ -73,11 +61,6 @@ const formatDate = (date: Date) =>
           <a href="#manifesto">Sobre</a>
           <a href="#participar">Participar</a>
         </nav>
-
-        <button class="theme-toggle" type="button" aria-label="Alternar tema">
-          <span aria-hidden="true">◐</span>
-          <span class="theme-label">Tema</span>
-        </button>
       </div>
     </header>
 
@@ -371,40 +354,6 @@ const formatDate = (date: Date) =>
         </p>
       </div>
     </footer>
-
-    <script>
-      const button = document.querySelector<HTMLButtonElement>(".theme-toggle");
-      const root = document.documentElement;
-
-      const updateLabel = () => {
-        if (!button) return;
-        const dark =
-          root.classList.contains("dark") ||
-          (!root.classList.contains("light") &&
-            matchMedia("(prefers-color-scheme: dark)").matches);
-        button.setAttribute(
-          "aria-label",
-          dark ? "Ativar tema claro" : "Ativar tema escuro",
-        );
-      };
-
-      button?.addEventListener("click", () => {
-        const dark =
-          root.classList.contains("dark") ||
-          (!root.classList.contains("light") &&
-            matchMedia("(prefers-color-scheme: dark)").matches);
-        root.classList.toggle("dark", !dark);
-        root.classList.toggle("light", dark);
-        try {
-          localStorage.setItem("techs-theme", dark ? "light" : "dark");
-        } catch {
-          // O tema atual continua válido mesmo quando o storage está indisponível.
-        }
-        updateLabel();
-      });
-
-      updateLabel();
-    </script>
   </body>
 </html>
 
@@ -489,24 +438,6 @@ const formatDate = (date: Date) =>
     border-color: var(--color-brand);
     color: var(--color-brand);
   }
-  .theme-toggle {
-    min-width: 44px;
-    min-height: 44px;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.5rem;
-    border: 1px solid var(--color-border);
-    background: transparent;
-    color: inherit;
-    cursor: pointer;
-    font: 600 0.7rem/1 var(--font-mono);
-    text-transform: uppercase;
-  }
-  .theme-toggle:hover {
-    background: var(--color-text);
-    color: var(--color-bg);
-  }
 
   .hero {
     min-height: calc(100vh - 5.25rem);
@@ -529,7 +460,7 @@ const formatDate = (date: Date) =>
   .hero h1 {
     max-width: 12ch;
     margin: 0;
-    font-size: clamp(3.4rem, 7vw, 7rem);
+    font-size: clamp(3rem, 5.25vw, 5.4rem);
     font-weight: 850;
     letter-spacing: -0.045em;
     line-height: 0.88;
@@ -967,13 +898,6 @@ const formatDate = (date: Date) =>
     nav {
       display: none;
     }
-    .theme-label {
-      position: absolute;
-      width: 1px;
-      height: 1px;
-      overflow: hidden;
-      clip: rect(0 0 0 0);
-    }
     .hero {
       min-height: auto;
       grid-template-columns: 1fr;
@@ -1025,7 +949,7 @@ const formatDate = (date: Date) =>
       padding-block: 3.5rem;
     }
     .hero h1 {
-      font-size: clamp(3rem, 15vw, 4.5rem);
+      font-size: clamp(2.6rem, 12vw, 3.8rem);
     }
     .hero-actions .button {
       width: 100%;

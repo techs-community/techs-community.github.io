@@ -33,19 +33,8 @@ const publishedAt = new Intl.DateTimeFormat(SITE.locale, {
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={post.data.description} />
-    <meta name="theme-color" content="#14140f" />
+    <meta name="theme-color" content="#e7e0d2" />
     <title>{post.data.title} — {SITE.title}</title>
-    <script is:inline>
-      (() => {
-        try {
-          const saved = localStorage.getItem("techs-theme");
-          if (saved === "light" || saved === "dark")
-            document.documentElement.classList.add(saved);
-        } catch {
-          // A preferência do sistema continua funcionando sem acesso ao storage.
-        }
-      })();
-    </script>
   </head>
   <body>
     <a class="skip-link" href="#artigo">Pular para o artigo</a>

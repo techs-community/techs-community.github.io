@@ -10,7 +10,7 @@
 | CSS               | Tailwind CSS via plugin oficial para Vite     | CSS gerado estaticamente, sem runtime, responsivo e orientado por tokens.                                |
 | CSS de artigos    | `@tailwindcss/typography`                     | Base consistente para conteúdo Markdown, customizada pelos tokens da marca.                              |
 | Componentes de UI | Componentes `.astro` próprios                 | Evita uma biblioteca JavaScript desnecessária e mantém identidade própria.                               |
-| Interatividade    | JavaScript/TypeScript nativo em ilhas mínimas | Busca e tema não justificam adotar React, Vue ou outro runtime no MVP.                                   |
+| Interatividade    | JavaScript/TypeScript nativo em ilhas mínimas | A busca não justifica adotar React, Vue ou outro runtime no MVP.                                         |
 | Busca             | Pagefind após o build                         | Índice local e estático, sem serviço externo nem backend.                                                |
 | Feeds/SEO         | Integrações oficiais do ecossistema Astro     | Sitemap e RSS são gerados no build a partir da mesma fonte de conteúdo.                                  |
 | Testes            | Vitest + Playwright + axe-core                | Cobertura unitária, navegação no artefato real e acessibilidade automatizada.                            |
@@ -45,9 +45,9 @@ flowchart LR
   G --> H[Artefato GitHub Pages]
 ```
 
-O navegador recebe documentos prontos. JavaScript é reservado ao seletor de tema,
-menu móvel e busca. Listagens, taxonomias, paginação e artigos são calculados no
-build. Não existe API de produção.
+O navegador recebe documentos prontos. JavaScript é reservado ao menu móvel e à
+busca. Listagens, taxonomias, paginação e artigos são calculados no build. Não
+existe API de produção.
 
 ## 3. Estrutura proposta
 
@@ -259,11 +259,9 @@ podem ser refinados durante a implementação, preservando estes papéis:
 ```
 
 Os valores partem das cores percebidas na arte oficial, mas devem ser confirmados
-por amostragem do arquivo-fonte e ajustados para contraste. O tema escuro assume o
-caráter de uma sala de controle/terminal: carvão como fundo, papel pálido como texto
-e laranja como sinal. Ele redefine tokens semânticos, e não classes por componente.
-O azul de foco é deliberadamente distinto da marca e deve permanecer visível nos
-dois temas.
+por amostragem do arquivo-fonte e ajustados para contraste. A interface usa somente
+o tema claro de papel envelhecido, tinta quase preta e laranja como sinal. O azul de
+foco é deliberadamente distinto da marca e deve permanecer visível nesse tema.
 
 ### 6.4 Tipografia e espaçamento
 
@@ -302,7 +300,7 @@ dois temas.
 
 Componentes mínimos do MVP:
 
-- `Header`, `MobileMenu`, `Footer`, `ThemeToggle` e `SkipLink`;
+- `Header`, `MobileMenu`, `Footer` e `SkipLink`;
 - `ArticleCard`, `FeaturedArticle`, `ArticleMeta`, `AuthorCard` e `TagList`;
 - `Pagination`, `Breadcrumbs`, `TableOfContents` e `Search`;
 - `SeoHead`, `SocialImage`, `CodeBlock` e estados vazio/erro.
@@ -326,8 +324,8 @@ quando aplicável. Componentes interativos devem conservar alvo mínimo de 44 x 
 ## 7. Estratégia de CSS
 
 - Tailwind será integrado pelo plugin oficial `@tailwindcss/vite`.
-- `src/styles/global.css` importa Tailwind, registra tokens, tema escuro, estilos de
-  base e ajustes do plugin Typography.
+- `src/styles/global.css` importa Tailwind, registra os tokens do tema claro,
+  estilos de base e ajustes do plugin Typography.
 - Utilitários ficam próximos do markup; padrões repetidos viram componentes Astro.
 - Não usar `@apply` como mecanismo geral de abstração.
 - Valores arbitrários só são aceitos quando não representam um token reutilizável.

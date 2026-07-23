@@ -2,7 +2,7 @@
 title: "Como participar da Techs Community"
 description: "Conheça os assuntos, valores e o caminho para entrar nos grupos da Techs Community, compartilhar conhecimento e crescer com outras pessoas."
 publishedAt: 2026-07-21
-author: tiagopaulino
+author: otechmista
 categories:
   - carreira-e-comunidade
 tags:

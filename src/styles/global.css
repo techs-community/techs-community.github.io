@@ -5,8 +5,8 @@
  * - Tokens semânticos vivem aqui como variáveis CSS e são expostos ao Tailwind
  *   via `@theme inline`. Componentes consomem os papéis (bg, text, brand...),
  *   nunca valores crus.
- * - Tema escuro redefine os MESMOS tokens semânticos (não cria classes por
- *   componente). O azul de foco é distinto da marca e visível nos dois temas.
+ * - A identidade usa um único tema claro inspirado em papel envelhecido. O azul
+ *   de foco permanece distinto da marca.
  * - Utilitários ficam no markup; padrões repetidos viram componentes .astro.
  *   Evitar `@apply` como abstração geral e valores arbitrários que representem
  *   um token reutilizável.
@@ -15,12 +15,8 @@
 @import "tailwindcss";
 @plugin "@tailwindcss/typography";
 
-/* Tema escuro é ativado por classe `dark` na raiz (definida por ilha de tema),
-   com fallback para prefers-color-scheme quando não há escolha explícita. */
-@custom-variant dark (&:where(.dark, .dark *));
-
 /* ---------------------------------------------------------------------------
- * Tokens semânticos — tema claro (papel envelhecido, tinta quase preta).
+ * Tokens semânticos — papel envelhecido e tinta quase preta.
  * Valores partem das cores percebidas na arte oficial (design.md §6.3).
  * ------------------------------------------------------------------------- */
 :root {
@@ -52,37 +48,6 @@
   --font-mono:
     ui-monospace, "SFMono-Regular", "Cascadia Code", "Source Code Pro",
     monospace;
-}
-
-/* Tema escuro explícito (classe .dark) — sala de controle / terminal:
-   carvão como fundo, papel pálido como texto, laranja como sinal. */
-:root.dark {
-  --color-bg: #14140f;
-  --color-surface: #1e1e17;
-  --color-text: #ece5d5;
-  --color-muted: #a29d8f;
-  --color-border: #4a483f;
-  --color-brand: #e0872c;
-  --color-brand-strong: #c86f16;
-  --color-brand-contrast: #14140f;
-  --color-alert: #e0655c;
-  --color-focus: #6ea8ff;
-}
-
-/* Sem escolha explícita, respeita a preferência do sistema. */
-@media (prefers-color-scheme: dark) {
-  :root:not(.light) {
-    --color-bg: #14140f;
-    --color-surface: #1e1e17;
-    --color-text: #ece5d5;
-    --color-muted: #a29d8f;
-    --color-border: #4a483f;
-    --color-brand: #e0872c;
-    --color-brand-strong: #c86f16;
-    --color-brand-contrast: #14140f;
-    --color-alert: #e0655c;
-    --color-focus: #6ea8ff;
-  }
 }
 
 /* ---------------------------------------------------------------------------

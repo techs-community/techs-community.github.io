@@ -129,11 +129,10 @@ O build deve gerar:
 - `robots.txt` compatível com o endereço de produção;
 - página `404.html` personalizada.
 
-### RF-08 — Tema e preferências
+### RF-08 — Tema visual
 
-O site deve oferecer temas claro e escuro, respeitar inicialmente
-`prefers-color-scheme` e persistir uma escolha explícita no armazenamento local.
-A leitura do conteúdo não pode depender de JavaScript.
+O site deve usar exclusivamente o tema claro da identidade editorial, sem depender
+da preferência de cor do sistema ou de JavaScript para apresentar o conteúdo.
 
 ### RF-09 — Contribuição e qualidade editorial
 

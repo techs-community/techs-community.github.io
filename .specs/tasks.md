@@ -20,7 +20,7 @@
 - [ ] **T002 — Integrar Tailwind CSS e tokens visuais** — depende de T001
   - Instalar Tailwind pelo plugin oficial de Vite e o plugin Typography.
   - Criar `global.css`, tokens retro-editoriais derivados da arte oficial,
-    reset/base, temas claro/escuro e estilos tipográficos de artigo.
+    reset/base, tema claro e estilos tipográficos de artigo.
   - Documentar limites para utilitários, CSS scoped e valores arbitrários.
   - **Pronto quando:** build contém apenas CSS usado e exemplos passam contraste AA.
 
@@ -73,12 +73,12 @@
   - Aplicar landmarks, foco visível, estados responsivos e largura de leitura.
   - **Pronto quando:** navegação funciona com teclado a partir de 320 px.
 
-- [ ] **T202 — Implementar tema claro/escuro** — depende de T201
-  - Respeitar preferência do sistema antes da pintura inicial.
-  - Persistir seleção explícita e evitar flash de tema incorreto.
+- [ ] **T202 — Consolidar o tema claro** — depende de T201
+  - Aplicar o tema editorial claro independentemente da preferência do sistema.
+  - Remover controles, persistência e scripts de alternância de cor.
   - Respeitar `prefers-reduced-motion`.
-  - **Pronto quando:** funciona com teclado, sem erro quando storage não está
-    disponível e sem bloquear leitura com JavaScript desativado.
+  - **Pronto quando:** todas as páginas mantêm contraste e legibilidade sem
+    JavaScript e não oferecem alternância para tema escuro.
 
 - [ ] **T203 — Construir componentes editoriais** — depende de T102 e T201
   - Criar cards, destaque, metadados, tags, autoria, breadcrumbs, paginação,
