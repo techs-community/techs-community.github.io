@@ -70,13 +70,12 @@ npm run build
 `npm run verify` verifica formatação, lint, tipos, schema do conteúdo e testes. O
 build confirma que o artigo e seus assets podem ser gerados como páginas estáticas.
 
-Ao abrir ou atualizar um pull request, o workflow **Validar pull request** executa
+Ao abrir ou atualizar um pull request, o workflow **Validar e publicar** executa
 automaticamente os mesmos comandos com Node.js 22. O PR fica pronto para revisão
-editorial quando o check `Qualidade e build` estiver aprovado.
-
-Depois do merge em `main`, o workflow **Publicar GitHub Pages** gera o site e
-publica exclusivamente o conteúdo de `dist/`. No repositório do GitHub, a fonte
-do Pages deve estar configurada como **GitHub Actions** em
+editorial quando o check `Qualidade e build` estiver aprovado. Depois do merge em
+`main`, a mesma rotina publica exclusivamente o conteúdo de `dist/` no GitHub
+Pages. No repositório, a fonte do Pages deve estar configurada como **GitHub
+Actions** em
 `Settings → Pages → Build and deployment → Source`.
 
 ### Enviando a contribuição

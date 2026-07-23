@@ -78,9 +78,10 @@ git push -u origin artigo/<slug>
 Abra o pull request para `main`. Após revisão editorial e merge, a publicação no
 GitHub Pages é automática.
 
-O template do PR apresenta o checklist editorial. A rotina **Validar pull
-request** executa `npm run verify` e `npm run build` automaticamente; aguarde o
-check `Qualidade e build` ficar verde antes de solicitar a aprovação final.
+O template do PR apresenta o checklist editorial. A rotina **Validar e publicar**
+executa `npm run verify` e `npm run build` automaticamente; aguarde o check
+`Qualidade e build` ficar verde antes de solicitar a aprovação final. O deploy só
+é liberado depois que a alteração chega à branch `main`.
 
 ## Convenções editoriais
 

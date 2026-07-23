@@ -1,6 +1,9 @@
-name: Publicar GitHub Pages
+name: Validar e publicar
 
 on:
+  pull_request:
+    branches:
+      - main
   push:
     branches:
       - main
@@ -8,16 +11,14 @@ on:
 
 permissions:
   contents: read
-  pages: write
-  id-token: write
 
 concurrency:
-  group: pages
-  cancel-in-progress: false
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 jobs:
   build:
-    name: Gerar site
+    name: Qualidade e build
     runs-on: ubuntu-latest
     timeout-minutes: 15
 
@@ -31,33 +32,40 @@ jobs:
           node-version: 22
           cache: npm
 
-      - name: Configurar GitHub Pages
-        uses: actions/configure-pages@v5
-
       - name: Instalar dependências
         run: npm ci
 
-      - name: Validar projeto
+      - name: Verificar formatação, lint, tipos e testes
         run: npm run verify
 
-      - name: Gerar arquivos estáticos
+      - name: Gerar site estático
         run: npm run build
 
-      - name: Enviar artefato do Pages
+      - name: Preparar artefato para publicação
+        if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
         uses: actions/upload-pages-artifact@v4
         with:
           path: dist
+          retention-days: 1
 
   deploy:
-    name: Publicar site
+    name: Publicar GitHub Pages
+    if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
     needs: build
     runs-on: ubuntu-latest
     timeout-minutes: 10
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
 
     steps:
-      - name: Publicar no GitHub Pages
+      - name: Configurar GitHub Pages
+        uses: actions/configure-pages@v5
+
+      - name: Publicar artefato
         id: deployment
         uses: actions/deploy-pages@v4
