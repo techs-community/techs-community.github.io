@@ -1,0 +1,89 @@
+---
+interface Props {
+  title: string;
+  description: string;
+  canonical: string;
+  image: string;
+  imageAlt: string;
+  imageWidth?: number;
+  imageHeight?: number;
+  imageType?: string;
+  type?: "website" | "article";
+  publishedTime?: string;
+  modifiedTime?: string;
+  authorUrl?: string;
+  tags?: string[];
+  structuredData?: Record<string, unknown>;
+}
+
+const {
+  title,
+  description,
+  canonical,
+  image,
+  imageAlt,
+  imageWidth,
+  imageHeight,
+  imageType,
+  type = "website",
+  publishedTime,
+  modifiedTime,
+  authorUrl,
+  tags = [],
+  structuredData,
+} = Astro.props;
+
+const serializedStructuredData = structuredData
+  ? JSON.stringify(structuredData).replaceAll("<", "\\u003c")
+  : undefined;
+---
+
+<title>{title}</title>
+<meta name="description" content={description} />
+<link rel="canonical" href={canonical} />
+
+<meta property="og:site_name" content="Techs Community" />
+<meta property="og:locale" content="pt_BR" />
+<meta property="og:type" content={type} />
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:url" content={canonical} />
+<meta property="og:image" content={image} />
+<meta property="og:image:secure_url" content={image} />
+<meta property="og:image:alt" content={imageAlt} />
+{imageType && <meta property="og:image:type" content={imageType} />}
+{imageWidth && <meta property="og:image:width" content={String(imageWidth)} />}
+{
+  imageHeight && (
+    <meta property="og:image:height" content={String(imageHeight)} />
+  )
+}
+
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={title} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={image} />
+<meta name="twitter:image:alt" content={imageAlt} />
+
+{
+  publishedTime && (
+    <meta property="article:published_time" content={publishedTime} />
+  )
+}
+{
+  modifiedTime && (
+    <meta property="article:modified_time" content={modifiedTime} />
+  )
+}
+{authorUrl && <meta property="article:author" content={authorUrl} />}
+{tags.map((tag) => <meta property="article:tag" content={tag} />)}
+
+{
+  serializedStructuredData && (
+    <script
+      is:inline
+      type="application/ld+json"
+      set:html={serializedStructuredData}
+    />
+  )
+}

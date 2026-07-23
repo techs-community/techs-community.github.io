@@ -1,7 +1,8 @@
 ---
 import { getCollection } from "astro:content";
 import { Image } from "astro:assets";
-import { SITE, type CategoryId, categoryName } from "../consts";
+import SeoHead from "../components/SeoHead.astro";
+import { SITE, SITE_URL, type CategoryId, categoryName } from "../consts";
 import { getPublishedPosts, selectFeatured } from "../lib/content";
 import { routes } from "../lib/links";
 import communityLogo from "../assets/techs-community-logo.png";
@@ -22,6 +23,23 @@ const communityTopics = [
   ["Vagas", "Oportunidades compartilhadas pela comunidade"],
   ["E o que mais rolar", "Conversa livre dentro do universo tech"],
 ] as const;
+const pageTitle = `${SITE.title} — Tecnologia compartilhada em português`;
+const canonicalUrl = new URL("/", SITE_URL).toString();
+const socialImageUrl = new URL(communityLogo.src, SITE_URL).toString();
+const structuredData = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  name: SITE.title,
+  url: canonicalUrl,
+  description: SITE.description,
+  inLanguage: SITE.locale,
+  publisher: {
+    "@type": "Organization",
+    name: SITE.title,
+    url: SITE.org,
+    logo: socialImageUrl,
+  },
+};
 
 const formatDate = (date: Date) =>
   new Intl.DateTimeFormat(SITE.locale, {
@@ -41,9 +59,18 @@ const formatDate = (date: Date) =>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content={SITE.description} />
     <meta name="theme-color" content="#e7e0d2" />
-    <title>{SITE.title} — Tecnologia compartilhada em português</title>
+    <SeoHead
+      title={pageTitle}
+      description={SITE.description}
+      canonical={canonicalUrl}
+      image={socialImageUrl}
+      imageAlt="Arte oficial da Techs Community com três pessoas de terno e computadores no lugar das cabeças."
+      imageWidth={communityLogo.width}
+      imageHeight={communityLogo.height}
+      imageType="image/png"
+      structuredData={structuredData}
+    />
   </head>
   <body>
     <a class="skip-link" href="#conteudo">Pular para o conteúdo</a>

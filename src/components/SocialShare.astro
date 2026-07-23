@@ -1,0 +1,93 @@
+---
+interface Props {
+  title: string;
+  url: string;
+}
+
+const { title, url } = Astro.props;
+const encodedUrl = encodeURIComponent(url);
+const encodedTitle = encodeURIComponent(title);
+const encodedMessage = encodeURIComponent(`${title} — ${url}`);
+---
+
+<section class="share" aria-labelledby="share-title">
+  <div>
+    <p class="label">AMPLIFICAR SINAL</p>
+    <h2 id="share-title">Compartilhe este artigo</h2>
+  </div>
+  <ul>
+    <li>
+      <a
+        href={`https://wa.me/?text=${encodedMessage}`}
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="Compartilhar no WhatsApp">WhatsApp ↗</a
+      >
+    </li>
+    <li>
+      <a
+        href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodedUrl}`}
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="Compartilhar no LinkedIn">LinkedIn ↗</a
+      >
+    </li>
+    <li>
+      <a
+        href={`https://twitter.com/intent/tweet?text=${encodedTitle}&url=${encodedUrl}`}
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="Compartilhar no X">X / Twitter ↗</a
+      >
+    </li>
+  </ul>
+</section>
+
+<style>
+  .share {
+    width: min(calc(100% - 2rem), var(--reading-width));
+    display: flex;
+    align-items: end;
+    justify-content: space-between;
+    gap: 2rem;
+    margin: 0 auto clamp(4rem, 8vw, 7rem);
+    padding: 1.5rem;
+    border: 1px solid var(--color-border);
+    background: var(--color-surface);
+  }
+  .label {
+    margin: 0 0 0.45rem;
+    color: var(--color-brand);
+    font: 800 0.62rem/1 var(--font-mono);
+    letter-spacing: 0.08em;
+  }
+  h2 {
+    margin: 0;
+    font-size: clamp(1.35rem, 3vw, 2rem);
+    text-transform: uppercase;
+  }
+  ul {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: 0.7rem 1rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  a {
+    color: var(--color-brand-strong);
+    font: 800 0.68rem/1 var(--font-mono);
+    text-underline-offset: 0.25rem;
+    text-transform: uppercase;
+  }
+  @media (max-width: 640px) {
+    .share {
+      align-items: flex-start;
+      flex-direction: column;
+    }
+    ul {
+      justify-content: flex-start;
+    }
+  }
+</style>

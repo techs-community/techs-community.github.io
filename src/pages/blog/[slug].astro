@@ -1,8 +1,11 @@
 ---
 import { getEntry, render } from "astro:content";
 import { Image } from "astro:assets";
-import { SITE, type CategoryId, categoryName } from "../../consts";
+import SeoHead from "../../components/SeoHead.astro";
+import SocialShare from "../../components/SocialShare.astro";
+import { SITE, SITE_URL, type CategoryId, categoryName } from "../../consts";
 import { getPublishedPosts, type Post } from "../../lib/content";
+import { githubUrl } from "../../lib/links";
 import { readingTimeMinutes } from "../../lib/text";
 import "../../styles/global.css";
 
@@ -25,6 +28,41 @@ const publishedAt = new Intl.DateTimeFormat(SITE.locale, {
   year: "numeric",
   timeZone: SITE.timeZone,
 }).format(post.data.publishedAt);
+const pageTitle = `${post.data.title} — ${SITE.title}`;
+const articleUrl = new URL(`/blog/${post.id}/`, SITE_URL).toString();
+const canonicalUrl = post.data.canonicalUrl ?? articleUrl;
+const socialImageUrl = new URL(post.data.cover.src, SITE_URL).toString();
+const authorUrl = author ? githubUrl(author.data.githubUser) : SITE.org;
+const imageTypes: Record<string, string> = {
+  avif: "image/avif",
+  gif: "image/gif",
+  jpeg: "image/jpeg",
+  jpg: "image/jpeg",
+  png: "image/png",
+  svg: "image/svg+xml",
+  webp: "image/webp",
+};
+const structuredData = {
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  headline: post.data.title,
+  description: post.data.description,
+  image: [socialImageUrl],
+  datePublished: post.data.publishedAt.toISOString(),
+  dateModified: (post.data.updatedAt ?? post.data.publishedAt).toISOString(),
+  inLanguage: SITE.locale,
+  mainEntityOfPage: canonicalUrl,
+  author: {
+    "@type": "Person",
+    name: author?.data.name ?? SITE.title,
+    url: authorUrl,
+  },
+  publisher: {
+    "@type": "Organization",
+    name: SITE.title,
+    url: SITE.org,
+  },
+};
 ---
 
 <!doctype html>
@@ -32,9 +70,25 @@ const publishedAt = new Intl.DateTimeFormat(SITE.locale, {
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content={post.data.description} />
     <meta name="theme-color" content="#e7e0d2" />
-    <title>{post.data.title} — {SITE.title}</title>
+    <SeoHead
+      title={pageTitle}
+      description={post.data.description}
+      canonical={canonicalUrl}
+      image={socialImageUrl}
+      imageAlt={post.data.coverAlt}
+      imageWidth={post.data.cover.width}
+      imageHeight={post.data.cover.height}
+      imageType={imageTypes[post.data.cover.format]}
+      type="article"
+      publishedTime={post.data.publishedAt.toISOString()}
+      modifiedTime={(
+        post.data.updatedAt ?? post.data.publishedAt
+      ).toISOString()}
+      authorUrl={authorUrl}
+      tags={post.data.tags}
+      structuredData={structuredData}
+    />
   </head>
   <body>
     <a class="skip-link" href="#artigo">Pular para o artigo</a>
@@ -91,6 +145,7 @@ const publishedAt = new Intl.DateTimeFormat(SITE.locale, {
           </aside>
           <div class="prose"><Content /></div>
         </div>
+        <SocialShare title={post.data.title} url={articleUrl} />
       </article>
     </main>
 
