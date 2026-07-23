@@ -1,0 +1,335 @@
+---
+import { getEntry, render } from "astro:content";
+import { Image } from "astro:assets";
+import { SITE, type CategoryId, categoryName } from "../../consts";
+import { getPublishedPosts, type Post } from "../../lib/content";
+import { readingTimeMinutes } from "../../lib/text";
+import "../../styles/global.css";
+
+export async function getStaticPaths() {
+  const posts = await getPublishedPosts();
+  return posts.map((post) => ({ params: { slug: post.id }, props: { post } }));
+}
+
+interface Props {
+  post: Post;
+}
+
+const { post } = Astro.props;
+const author = await getEntry(post.data.author);
+const { Content } = await render(post);
+const readingTime = readingTimeMinutes(post.body ?? "");
+const publishedAt = new Intl.DateTimeFormat(SITE.locale, {
+  day: "2-digit",
+  month: "long",
+  year: "numeric",
+  timeZone: SITE.timeZone,
+}).format(post.data.publishedAt);
+---
+
+<!doctype html>
+<html lang={SITE.locale}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={post.data.description} />
+    <meta name="theme-color" content="#14140f" />
+    <title>{post.data.title} — {SITE.title}</title>
+    <script is:inline>
+      (() => {
+        try {
+          const saved = localStorage.getItem("techs-theme");
+          if (saved === "light" || saved === "dark")
+            document.documentElement.classList.add(saved);
+        } catch {
+          // A preferência do sistema continua funcionando sem acesso ao storage.
+        }
+      })();
+    </script>
+  </head>
+  <body>
+    <a class="skip-link" href="#artigo">Pular para o artigo</a>
+    <header>
+      <div class="shell header-inner">
+        <a class="wordmark" href="/" aria-label="Techs Community, início">
+          <span aria-hidden="true">TC</span>
+          <strong>TECHS<br />COMMUNITY</strong>
+        </a>
+        <a class="back-link" href="/">← Voltar ao arquivo</a>
+      </div>
+    </header>
+
+    <main id="artigo">
+      <article>
+        <header class="article-header shell">
+          <p class="eyebrow">
+            ARQUIVO // {categoryName(post.data.categories[0] as CategoryId)}
+          </p>
+          {post.data.draft && <span class="draft">RASCUNHO // PREVIEW</span>}
+          <h1>{post.data.title}</h1>
+          <p class="dek">{post.data.description}</p>
+          <dl class="meta">
+            <div><dt>PUBLICADO</dt><dd>{publishedAt}</dd></div>
+            <div>
+              <dt>AUTORIA</dt><dd>{author?.data.name ?? "Techs Community"}</dd>
+            </div>
+            <div><dt>LEITURA</dt><dd>{readingTime} min</dd></div>
+          </dl>
+        </header>
+
+        <div class="cover shell">
+          <Image
+            src={post.data.cover}
+            alt={post.data.coverAlt}
+            widths={[640, 960, 1440]}
+            sizes="(max-width: 1152px) calc(100vw - 2rem), 1152px"
+            format={post.data.cover.format === "svg" ? "svg" : "webp"}
+            loading="eager"
+          />
+        </div>
+
+        <div class="article-grid shell">
+          <aside aria-label="Classificação do artigo">
+            <p>ASSUNTOS</p>
+            <ul>
+              {
+                post.data.categories.map((category) => (
+                  <li>{categoryName(category as CategoryId)}</li>
+                ))
+              }
+              {post.data.tags.map((tag) => <li>#{tag}</li>)}
+            </ul>
+          </aside>
+          <div class="prose"><Content /></div>
+        </div>
+      </article>
+    </main>
+
+    <footer>
+      <div class="shell footer-inner">
+        <p>Feito por pessoas de tecnologia, para pessoas de tecnologia. 💛</p>
+        <a href="/">Mais artigos →</a>
+      </div>
+    </footer>
+  </body>
+</html>
+
+<style>
+  :global(body) {
+    min-width: 320px;
+    background-image: linear-gradient(
+      to right,
+      color-mix(in srgb, var(--color-border) 6%, transparent) 1px,
+      transparent 1px
+    );
+    background-size: 80px 100%;
+  }
+  .shell {
+    width: min(calc(100% - 2rem), var(--content-width));
+    margin-inline: auto;
+  }
+  .skip-link {
+    position: fixed;
+    z-index: 100;
+    top: 0.75rem;
+    left: 0.75rem;
+    padding: 0.6rem 0.9rem;
+    background: var(--color-focus);
+    color: white;
+    transform: translateY(-180%);
+  }
+  .skip-link:focus {
+    transform: translateY(0);
+  }
+  body > header,
+  footer {
+    border-bottom: 1px solid var(--color-border);
+    background: var(--color-surface);
+  }
+  .header-inner,
+  .footer-inner {
+    min-height: 5.25rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2rem;
+  }
+  .wordmark {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.7rem;
+    text-decoration: none;
+    font: 800 0.78rem/0.92 var(--font-display);
+    letter-spacing: 0.11em;
+  }
+  .wordmark > span {
+    display: grid;
+    place-items: center;
+    width: 2.35rem;
+    aspect-ratio: 1;
+    border: 2px solid var(--color-text);
+    color: var(--color-brand);
+    font: 900 0.75rem/1 var(--font-mono);
+  }
+  .back-link,
+  .footer-inner a {
+    font: 700 0.7rem/1 var(--font-mono);
+    text-transform: uppercase;
+    text-underline-offset: 0.3rem;
+  }
+  .article-header {
+    padding-block: clamp(4rem, 9vw, 8rem) clamp(2rem, 5vw, 4rem);
+  }
+  .eyebrow,
+  .draft {
+    color: var(--color-brand);
+    font: 700 0.7rem/1.4 var(--font-mono);
+    letter-spacing: 0.09em;
+  }
+  .draft {
+    display: inline-block;
+    margin-bottom: 1rem;
+    padding: 0.4rem 0.55rem;
+    border: 1px solid var(--color-alert);
+    color: var(--color-alert);
+  }
+  h1 {
+    max-width: 15ch;
+    margin: 0;
+    font-size: clamp(3rem, 8vw, 7.5rem);
+    font-weight: 900;
+    letter-spacing: -0.045em;
+    line-height: 0.9;
+    text-transform: uppercase;
+  }
+  .dek {
+    max-width: 47rem;
+    margin: 2rem 0;
+    color: var(--color-muted);
+    font-size: clamp(1.05rem, 2vw, 1.3rem);
+  }
+  .meta {
+    max-width: 47rem;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    margin: 0;
+    border-block: 1px solid var(--color-border);
+  }
+  .meta div {
+    padding: 0.85rem 1rem 0.85rem 0;
+  }
+  .meta dt {
+    color: var(--color-muted);
+    font: 700 0.58rem/1 var(--font-mono);
+  }
+  .meta dd {
+    margin: 0.35rem 0 0;
+    font-size: 0.85rem;
+  }
+  .cover {
+    overflow: hidden;
+    border: 1px solid var(--color-border);
+    background: var(--color-surface);
+  }
+  .cover :global(img) {
+    width: 100%;
+    height: auto;
+    max-height: 47rem;
+    display: block;
+    object-fit: cover;
+  }
+  .article-grid {
+    display: grid;
+    grid-template-columns: 12rem minmax(0, var(--reading-width)) 1fr;
+    gap: clamp(2rem, 6vw, 6rem);
+    padding-block: clamp(4rem, 8vw, 7rem);
+  }
+  aside {
+    grid-column: 1;
+    font: 600 0.68rem/1.6 var(--font-mono);
+  }
+  aside > p {
+    padding-bottom: 0.6rem;
+    border-bottom: 1px solid var(--color-border);
+    color: var(--color-brand);
+    font-weight: 800;
+  }
+  aside ul {
+    display: grid;
+    gap: 0.55rem;
+    margin: 0;
+    padding: 0;
+    color: var(--color-muted);
+    list-style: none;
+  }
+  .prose {
+    grid-column: 2;
+    min-width: 0;
+    font-size: 1.08rem;
+  }
+  .prose :global(h2) {
+    margin: 3.2rem 0 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--color-border);
+    font-size: clamp(1.7rem, 4vw, 2.7rem);
+    font-weight: 850;
+    text-transform: uppercase;
+  }
+  .prose :global(p),
+  .prose :global(li) {
+    color: color-mix(in srgb, var(--color-text) 90%, var(--color-muted));
+  }
+  .prose :global(a) {
+    color: var(--color-brand-strong);
+    font-weight: 700;
+    text-decoration-thickness: 2px;
+    text-underline-offset: 0.2em;
+  }
+  .prose :global(pre) {
+    overflow-x: auto;
+    padding: 1.2rem;
+    border: 1px solid var(--color-border);
+    background: var(--color-text) !important;
+    color: var(--color-bg);
+    font-size: 0.82rem;
+  }
+  .prose :global(code) {
+    font-family: var(--font-mono);
+  }
+  footer {
+    border-top: 1px solid var(--color-border);
+    border-bottom: 0;
+  }
+  .footer-inner p {
+    color: var(--color-muted);
+    font-size: 0.8rem;
+  }
+  @media (max-width: 760px) {
+    .article-grid {
+      grid-template-columns: 1fr;
+    }
+    aside,
+    .prose {
+      grid-column: 1;
+    }
+    .meta {
+      grid-template-columns: 1fr;
+    }
+    .meta div + div {
+      border-top: 1px solid var(--color-border);
+    }
+    .back-link {
+      font-size: 0;
+    }
+    .back-link::after {
+      content: "← Início";
+      font-size: 0.7rem;
+    }
+    .footer-inner {
+      align-items: flex-start;
+      flex-direction: column;
+      justify-content: center;
+      padding-block: 1.5rem;
+    }
+  }
+</style>

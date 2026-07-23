@@ -1,0 +1,28 @@
+# build output
+dist/
+.astro/
+
+# dependencies
+node_modules/
+
+# generated / caches
+.cache/
+coverage/
+*.tsbuildinfo
+
+# test artifacts / reports
+playwright-report/
+test-results/
+
+# logs
+npm-debug.log*
+*.log
+
+# env
+.env
+.env.*
+!.env.example
+
+# os / editor
+.DS_Store
+Thumbs.db

@@ -1,0 +1,8 @@
+dist/
+.astro/
+node_modules/
+coverage/
+package-lock.json
+
+# Specs são mantidas manualmente; não reformatar.
+.specs/

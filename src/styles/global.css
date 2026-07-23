@@ -1,0 +1,168 @@
+/*
+ * global.css — Tailwind v4 + sistema de tokens do Techs Community.
+ *
+ * Estratégia de CSS (design.md §7):
+ * - Tokens semânticos vivem aqui como variáveis CSS e são expostos ao Tailwind
+ *   via `@theme inline`. Componentes consomem os papéis (bg, text, brand...),
+ *   nunca valores crus.
+ * - Tema escuro redefine os MESMOS tokens semânticos (não cria classes por
+ *   componente). O azul de foco é distinto da marca e visível nos dois temas.
+ * - Utilitários ficam no markup; padrões repetidos viram componentes .astro.
+ *   Evitar `@apply` como abstração geral e valores arbitrários que representem
+ *   um token reutilizável.
+ */
+
+@import "tailwindcss";
+@plugin "@tailwindcss/typography";
+
+/* Tema escuro é ativado por classe `dark` na raiz (definida por ilha de tema),
+   com fallback para prefers-color-scheme quando não há escolha explícita. */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* ---------------------------------------------------------------------------
+ * Tokens semânticos — tema claro (papel envelhecido, tinta quase preta).
+ * Valores partem das cores percebidas na arte oficial (design.md §6.3).
+ * ------------------------------------------------------------------------- */
+:root {
+  --color-bg: #e7e0d2;
+  --color-surface: #f1eadc;
+  --color-text: #1b1b18;
+  --color-muted: #5d5a52;
+  --color-border: #34332e;
+  --color-brand: #c86f16;
+  --color-brand-strong: #9f4e0b;
+  --color-brand-contrast: #171713;
+  --color-alert: #8f2721;
+  --color-focus: #005fcc;
+
+  --radius-sm: 0;
+  --radius-md: 0.125rem;
+  --radius-lg: 0.25rem;
+
+  --content-width: 72rem;
+  --reading-width: 45rem;
+
+  /* Famílias provisórias (fontes finais hospedadas localmente ficam pendentes).
+     Display condensado/industrial; corpo humanista legível; mono para
+     metadados, labels e código. */
+  --font-display:
+    "Roboto Condensed", "Arial Narrow", ui-sans-serif, system-ui, sans-serif;
+  --font-body:
+    ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-mono:
+    ui-monospace, "SFMono-Regular", "Cascadia Code", "Source Code Pro",
+    monospace;
+}
+
+/* Tema escuro explícito (classe .dark) — sala de controle / terminal:
+   carvão como fundo, papel pálido como texto, laranja como sinal. */
+:root.dark {
+  --color-bg: #14140f;
+  --color-surface: #1e1e17;
+  --color-text: #ece5d5;
+  --color-muted: #a29d8f;
+  --color-border: #4a483f;
+  --color-brand: #e0872c;
+  --color-brand-strong: #c86f16;
+  --color-brand-contrast: #14140f;
+  --color-alert: #e0655c;
+  --color-focus: #6ea8ff;
+}
+
+/* Sem escolha explícita, respeita a preferência do sistema. */
+@media (prefers-color-scheme: dark) {
+  :root:not(.light) {
+    --color-bg: #14140f;
+    --color-surface: #1e1e17;
+    --color-text: #ece5d5;
+    --color-muted: #a29d8f;
+    --color-border: #4a483f;
+    --color-brand: #e0872c;
+    --color-brand-strong: #c86f16;
+    --color-brand-contrast: #14140f;
+    --color-alert: #e0655c;
+    --color-focus: #6ea8ff;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+ * Exposição dos tokens ao Tailwind (bg-bg, text-text, border-border, etc.).
+ * ------------------------------------------------------------------------- */
+@theme inline {
+  --color-bg: var(--color-bg);
+  --color-surface: var(--color-surface);
+  --color-text: var(--color-text);
+  --color-muted: var(--color-muted);
+  --color-border: var(--color-border);
+  --color-brand: var(--color-brand);
+  --color-brand-strong: var(--color-brand-strong);
+  --color-brand-contrast: var(--color-brand-contrast);
+  --color-alert: var(--color-alert);
+  --color-focus: var(--color-focus);
+
+  --radius-sm: var(--radius-sm);
+  --radius-md: var(--radius-md);
+  --radius-lg: var(--radius-lg);
+
+  --font-display: var(--font-display);
+  --font-body: var(--font-body);
+  --font-mono: var(--font-mono);
+}
+
+/* ---------------------------------------------------------------------------
+ * Base.
+ * ------------------------------------------------------------------------- */
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+    scroll-behavior: smooth;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+
+  body {
+    background-color: var(--color-bg);
+    color: var(--color-text);
+    font-family: var(--font-body);
+    line-height: 1.65;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: var(--font-display);
+    line-height: 1.1;
+    text-wrap: balance;
+  }
+
+  /* Foco visível e consistente nos dois temas. */
+  :focus-visible {
+    outline: 2px solid var(--color-focus);
+    outline-offset: 2px;
+  }
+
+  a {
+    color: inherit;
+  }
+
+  ::selection {
+    background-color: var(--color-brand);
+    color: var(--color-brand-contrast);
+  }
+}

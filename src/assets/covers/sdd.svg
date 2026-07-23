@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" width="1600" height="900" role="img">
+  <rect width="1600" height="900" fill="#e7e0d2"/>
+  <g stroke="#1b1b18" stroke-width="1" opacity="0.09">
+    <path d="M0 100h1600M0 200h1600M0 300h1600M0 400h1600M0 500h1600M0 600h1600M0 700h1600M0 800h1600"/>
+    <path d="M100 0v900M200 0v900M300 0v900M400 0v900M500 0v900M600 0v900M700 0v900M800 0v900M900 0v900M1000 0v900M1100 0v900M1200 0v900M1300 0v900M1400 0v900M1500 0v900"/>
+  </g>
+  <rect x="58" y="58" width="1484" height="784" fill="none" stroke="#1b1b18" stroke-width="3"/>
+  <circle cx="1300" cy="220" r="122" fill="#c86f16"/>
+  <text x="110" y="135" font-family="monospace" font-size="30" letter-spacing="7" fill="#5d5a52">PROTOCOLO // SDD-001</text>
+  <text x="110" y="270" font-family="Arial Narrow, sans-serif" font-size="190" font-weight="900" letter-spacing="4" fill="#1b1b18">SPEC</text>
+  <text x="110" y="445" font-family="Arial Narrow, sans-serif" font-size="190" font-weight="900" letter-spacing="4" fill="#1b1b18">DRIVEN</text>
+  <text x="110" y="620" font-family="Arial Narrow, sans-serif" font-size="190" font-weight="900" letter-spacing="4" fill="#1b1b18">DEVELOPMENT</text>
+  <g transform="translate(110 700)" font-family="monospace" font-size="26" letter-spacing="3">
+    <rect width="275" height="64" fill="#1b1b18"/><text x="137" y="41" text-anchor="middle" fill="#e7e0d2">ESPECIFICAÇÃO</text>
+    <path d="M295 32h95" stroke="#c86f16" stroke-width="6"/><path d="m375 15 22 17-22 17" fill="none" stroke="#c86f16" stroke-width="6"/>
+    <rect x="410" width="180" height="64" fill="#1b1b18"/><text x="500" y="41" text-anchor="middle" fill="#e7e0d2">CÓDIGO</text>
+    <path d="M610 32h95" stroke="#c86f16" stroke-width="6"/><path d="m690 15 22 17-22 17" fill="none" stroke="#c86f16" stroke-width="6"/>
+    <rect x="725" width="260" height="64" fill="#c86f16"/><text x="855" y="41" text-anchor="middle" fill="#171713">VALIDAÇÃO</text>
+  </g>
+  <text x="1490" y="805" text-anchor="end" font-family="monospace" font-size="25" letter-spacing="4" fill="#5d5a52">TECHS COMMUNITY // 2026</text>
+</svg>
