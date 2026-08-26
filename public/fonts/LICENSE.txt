@@ -1,0 +1,18 @@
+Fontes auto-hospedadas neste diretório (design.md §6.4)
+=========================================================
+
+Todas as famílias abaixo são distribuídas sob a SIL Open Font License,
+Version 1.1 (https://openfontlicense.org), que permite uso, modificação e
+redistribuição — inclusive embarcadas em um site — desde que o nome da
+fonte não seja vendido isoladamente e esta licença acompanhe os arquivos.
+
+- Big Shoulders (display) — Copyright 2016-2021 The Big Shoulders Project
+  Authors. Fonte de origem: https://fonts.google.com/specimen/Big+Shoulders
+- Newsreader (corpo) — Copyright 2019-2021 The Newsreader Project Authors.
+  Fonte de origem: https://fonts.google.com/specimen/Newsreader
+- JetBrains Mono (monoespaçada) — Copyright 2020 The JetBrains Mono Project
+  Authors. Fonte de origem: https://fonts.google.com/specimen/JetBrains+Mono
+
+Subconjuntos WOFF2 (latin, latin-ext) gerados pelo serviço de subsetting do
+Google Fonts e baixados uma única vez para hospedagem local, sem chamada a
+CDN em produção. Texto completo da licença: https://openfontlicense.org

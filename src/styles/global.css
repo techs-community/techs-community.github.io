@@ -16,38 +16,143 @@
 @plugin "@tailwindcss/typography";
 
 /* ---------------------------------------------------------------------------
- * Tokens semânticos — papel envelhecido e tinta quase preta.
- * Valores partem das cores percebidas na arte oficial (design.md §6.3).
+ * Fontes locais (design.md §6.4) — subconjuntos WOFF2 auto-hospedados,
+ * sem chamada a Google Fonts/CDN em produção. Cada família é variável e
+ * cobre a faixa de peso usada no site num único arquivo por subconjunto.
+ * - Big Shoulders: display condensado/pesado, tom editorial-industrial.
+ * - Newsreader: corpo serifado, desenhado para leitura de artigos na tela.
+ * - JetBrains Mono: metadados, labels e código.
+ * ------------------------------------------------------------------------- */
+@font-face {
+  font-family: "Big Shoulders";
+  font-style: normal;
+  font-weight: 700 900;
+  font-display: swap;
+  src: url("/fonts/big-shoulders-normal-latin.woff2") format("woff2");
+  unicode-range:
+    U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC,
+    U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212,
+    U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: "Big Shoulders";
+  font-style: normal;
+  font-weight: 700 900;
+  font-display: swap;
+  src: url("/fonts/big-shoulders-normal-latin-ext.woff2") format("woff2");
+  unicode-range:
+    U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304,
+    U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB,
+    U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: "Newsreader";
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url("/fonts/newsreader-normal-latin.woff2") format("woff2");
+  unicode-range:
+    U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC,
+    U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212,
+    U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: "Newsreader";
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url("/fonts/newsreader-normal-latin-ext.woff2") format("woff2");
+  unicode-range:
+    U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304,
+    U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB,
+    U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: "Newsreader";
+  font-style: italic;
+  font-weight: 400 600;
+  font-display: swap;
+  src: url("/fonts/newsreader-italic-latin.woff2") format("woff2");
+  unicode-range:
+    U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC,
+    U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212,
+    U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: "Newsreader";
+  font-style: italic;
+  font-weight: 400 600;
+  font-display: swap;
+  src: url("/fonts/newsreader-italic-latin-ext.woff2") format("woff2");
+  unicode-range:
+    U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304,
+    U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB,
+    U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: "JetBrains Mono";
+  font-style: normal;
+  font-weight: 500 800;
+  font-display: swap;
+  src: url("/fonts/jetbrains-mono-normal-latin.woff2") format("woff2");
+  unicode-range:
+    U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC,
+    U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212,
+    U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: "JetBrains Mono";
+  font-style: normal;
+  font-weight: 500 800;
+  font-display: swap;
+  src: url("/fonts/jetbrains-mono-normal-latin-ext.woff2") format("woff2");
+  unicode-range:
+    U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304,
+    U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB,
+    U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+
+/* ---------------------------------------------------------------------------
+ * Tokens semânticos — chrome de interface retrô (roxo + verde-água + branco).
+ * Painéis/janelas usam o verde-água saturado com tinta quase preta por cima
+ * (maior contraste e legibilidade do que texto claro sobre a cor, mantendo o
+ * espírito "terminal" das referências). Roxo marca acentos, títulos e ação.
  * ------------------------------------------------------------------------- */
 :root {
-  --color-bg: #e7e0d2;
-  --color-surface: #f1eadc;
-  --color-text: #1b1b18;
-  --color-muted: #5d5a52;
-  --color-border: #34332e;
-  --color-brand: #c86f16;
-  --color-brand-strong: #9f4e0b;
-  --color-brand-contrast: #171713;
-  --color-alert: #8f2721;
-  --color-focus: #005fcc;
+  --color-bg: #e3fbf5;
+  --color-surface: #2fcbc0;
+  --color-text: #15131d;
+  --color-muted: #433d50;
+  --color-border: #15131d;
+  --color-brand: #6c2bd9;
+  --color-brand-strong: #4c1b9e;
+  --color-brand-contrast: #ffffff;
+  --color-alert: #c7333b;
+  --color-focus: #0057d8;
 
   --radius-sm: 0;
   --radius-md: 0.125rem;
   --radius-lg: 0.25rem;
 
+  /* Deslocamento fixo do "hard shadow" e espessura de borda do chrome de
+     janela retrô, reutilizados por .win, .win-btn e variantes. */
+  --chrome-border: 2px;
+  --chrome-shadow: 4px 4px 0 var(--color-border);
+  --chrome-dots: radial-gradient(var(--color-border) 1px, transparent 1.4px);
+
   --content-width: 72rem;
   --reading-width: 45rem;
 
-  /* Famílias provisórias (fontes finais hospedadas localmente ficam pendentes).
-     Display condensado/industrial; corpo humanista legível; mono para
-     metadados, labels e código. */
+  /* Display condensado/pesado para manchetes e wordmark; corpo serifado
+     editorial para leitura longa; mono para metadados, labels e código.
+     Arquivos auto-hospedados em /public/fonts (ver @font-face acima). */
   --font-display:
-    "Roboto Condensed", "Arial Narrow", ui-sans-serif, system-ui, sans-serif;
-  --font-body:
-    ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    "Big Shoulders", "Arial Narrow", "Roboto Condensed", ui-sans-serif,
+    system-ui, sans-serif;
+  --font-body: "Newsreader", "Iowan Old Style", "Georgia", ui-serif, serif;
   --font-mono:
-    ui-monospace, "SFMono-Regular", "Cascadia Code", "Source Code Pro",
-    monospace;
+    "JetBrains Mono", ui-monospace, "SFMono-Regular", "Cascadia Code",
+    "Source Code Pro", monospace;
 }
 
 /* ---------------------------------------------------------------------------
@@ -129,5 +234,149 @@
   ::selection {
     background-color: var(--color-brand);
     color: var(--color-brand-contrast);
+  }
+}
+
+/* ---------------------------------------------------------------------------
+ * Chrome de janela retrô — componentes compartilhados entre as páginas.
+ * Bordas grossas, sombra sólida deslocada e bisel 3D nos botões, como as
+ * referências de interface de sistema (design.md §6.5, "tensão controlada").
+ * ------------------------------------------------------------------------- */
+@layer components {
+  .win {
+    border: var(--chrome-border) solid var(--color-border);
+    background: var(--color-surface);
+    box-shadow: var(--chrome-shadow);
+  }
+
+  .win-title {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    padding: 0.55rem 0.75rem;
+    border-bottom: var(--chrome-border) solid var(--color-border);
+    background-color: var(--color-bg);
+    background-image: var(--chrome-dots);
+    background-size: 7px 7px;
+    color: var(--color-text);
+    font: 700 0.65rem/1 var(--font-mono);
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+  }
+
+  .win-title span {
+    padding: 0.15rem 0.4rem;
+    background: var(--color-bg);
+  }
+
+  .win-controls {
+    display: inline-flex;
+    flex-shrink: 0;
+    gap: 0.3rem;
+  }
+
+  .win-control {
+    display: inline-flex;
+    width: 1.15rem;
+    height: 1.15rem;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+    border: 1.5px solid var(--color-border);
+    background: var(--color-bg);
+    box-shadow:
+      inset 1px 1px 0 white,
+      inset -1px -1px 0 color-mix(in srgb, black 30%, transparent);
+    font-weight: 800;
+    line-height: 1;
+  }
+
+  .win-btn {
+    display: inline-flex;
+    min-height: 44px;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    padding: 0.7rem 1.1rem;
+    border: var(--chrome-border) solid var(--color-border);
+    background: var(--color-bg);
+    box-shadow:
+      inset 3px 3px 0 white,
+      inset -3px -3px 0 color-mix(in srgb, black 35%, transparent),
+      3px 3px 0 var(--color-border);
+    color: var(--color-text);
+    font: 700 0.72rem/1 var(--font-mono);
+    letter-spacing: 0.04em;
+    text-align: center;
+    text-decoration: none;
+    text-transform: uppercase;
+    cursor: pointer;
+  }
+
+  .win-btn:hover {
+    background: color-mix(in srgb, var(--color-bg) 80%, white);
+  }
+
+  .win-btn:active {
+    box-shadow:
+      inset -3px -3px 0 white,
+      inset 3px 3px 0 color-mix(in srgb, black 35%, transparent);
+    transform: translate(3px, 3px);
+  }
+
+  .win-btn-primary {
+    background: var(--color-brand);
+    color: var(--color-brand-contrast);
+  }
+
+  .win-btn-primary:hover {
+    background: var(--color-brand-strong);
+  }
+
+  /* Glifos decorativos de checkbox/radio, como nas referências de UI retrô.
+     Sempre acompanhados de texto real ao lado — nunca a única pista de
+     estado — e marcados aria-hidden quando puramente ilustrativos. */
+  .win-checkbox,
+  .win-radio {
+    display: inline-flex;
+    width: 0.85rem;
+    height: 0.85rem;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+    border: 1.5px solid var(--color-border);
+    background: var(--color-bg);
+  }
+
+  .win-radio {
+    border-radius: 50%;
+  }
+
+  .win-checkbox::after,
+  .win-radio::after {
+    content: "";
+    width: 55%;
+    height: 55%;
+    background: var(--color-brand);
+  }
+
+  .win-radio::after {
+    border-radius: 50%;
+  }
+
+  .win-tag {
+    display: inline-flex;
+    align-items: center;
+    border: 1.5px solid var(--color-border);
+    background: var(--color-text);
+    color: var(--color-bg);
+    font: 700 0.68rem/1 var(--font-mono);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .win-btn:active {
+      transform: none;
+    }
   }
 }

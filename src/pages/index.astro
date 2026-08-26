@@ -15,6 +15,8 @@ const featured = selectFeatured(posts);
 const recentPosts = posts.slice(0, 3);
 const joinUrl =
   "https://github.com/techs-community/.github/issues/new?template=solicitar-acesso.yml";
+const communityProjectsUrl =
+  "https://github.com/orgs/techs-community/repositories";
 const communityTopics = [
   ["Arquitetura de software", "Padrões, decisões, trade-offs e boas práticas"],
   ["Sistemas & infraestrutura", "Do baixo nível ao cloud"],
@@ -59,7 +61,7 @@ const formatDate = (date: Date) =>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#e7e0d2" />
+    <meta name="theme-color" content="#e3fbf5" />
     <SeoHead
       title={pageTitle}
       description={SITE.description}
@@ -85,6 +87,9 @@ const formatDate = (date: Date) =>
         <nav aria-label="Navegação principal">
           <a href="#recentes">Artigos</a>
           <a href="#assuntos">Assuntos</a>
+          <a href={communityProjectsUrl} target="_blank" rel="noreferrer"
+            >Projetos ↗</a
+          >
           <a href="#manifesto">Sobre</a>
           <a href="#participar">Participar</a>
         </nav>
@@ -104,10 +109,10 @@ const formatDate = (date: Date) =>
             muito bom humor. 🤓
           </p>
           <div class="hero-actions">
-            <a class="button button-primary" href="#recentes"
+            <a class="win-btn win-btn-primary" href="#recentes"
               >Explorar artigos <span>↓</span></a
             >
-            <a class="button button-ghost" href="#participar"
+            <a class="win-btn" href="#participar"
               >Como participar <span>↓</span></a
             >
           </div>
@@ -117,6 +122,10 @@ const formatDate = (date: Date) =>
           <div class="signal-head">
             <span>SISTEMA // ONLINE</span>
             <span class="live"><i></i> AO VIVO</span>
+            <span class="win-controls" aria-hidden="true">
+              <span class="win-control">─</span>
+              <span class="win-control">×</span>
+            </span>
           </div>
           <div class="signal-visual">
             <Image
@@ -168,37 +177,53 @@ const formatDate = (date: Date) =>
             </div>
 
             <article class="featured-record">
-              <div class="featured-image">
-                <Image
-                  src={featured.data.cover}
-                  alt={featured.data.coverAlt}
-                  widths={[640, 960, 1280]}
-                  sizes="(max-width: 800px) calc(100vw - 2rem), 55vw"
-                  format={featured.data.cover.format === "svg" ? "svg" : "webp"}
-                />
-                <span class="stamp">EM DESTAQUE</span>
+              <div class="win-title">
+                <span>
+                  {categoryName(featured.data.categories[0] as CategoryId)} ·
+                  REG-
+                  {featured.data.publishedAt.getFullYear()}-
+                  {String(posts.indexOf(featured) + 1).padStart(3, "0")}
+                </span>
+                <span class="win-controls" aria-hidden="true">
+                  <span class="win-control">─</span>
+                  <span class="win-control">×</span>
+                </span>
               </div>
-              <div class="featured-copy">
-                <div class="record-meta">
-                  <span>
-                    {categoryName(featured.data.categories[0] as CategoryId)}
-                  </span>
-                  <time datetime={featured.data.publishedAt.toISOString()}>
-                    {formatDate(featured.data.publishedAt)}
-                  </time>
+              <div class="featured-body">
+                <div class="featured-image">
+                  <Image
+                    src={featured.data.cover}
+                    alt={featured.data.coverAlt}
+                    widths={[640, 960, 1280]}
+                    sizes="(max-width: 800px) calc(100vw - 2rem), 55vw"
+                    format={
+                      featured.data.cover.format === "svg" ? "svg" : "webp"
+                    }
+                  />
+                  <span class="stamp">EM DESTAQUE</span>
                 </div>
-                <h3>{featured.data.title}</h3>
-                <p>{featured.data.description}</p>
-                <p class="byline">
-                  POR{" "}
-                  <strong>
-                    {authorsById.get(featured.data.author.id)?.name ??
-                      "TECHS COMMUNITY"}
-                  </strong>
-                </p>
-                <a class="text-link" href={routes.article(featured.id)}>
-                  Ler artigo <span>→</span>
-                </a>
+                <div class="featured-copy">
+                  <div class="record-meta">
+                    <span>
+                      {categoryName(featured.data.categories[0] as CategoryId)}
+                    </span>
+                    <time datetime={featured.data.publishedAt.toISOString()}>
+                      {formatDate(featured.data.publishedAt)}
+                    </time>
+                  </div>
+                  <h3>{featured.data.title}</h3>
+                  <p>{featured.data.description}</p>
+                  <p class="byline">
+                    POR{" "}
+                    <strong>
+                      {authorsById.get(featured.data.author.id)?.name ??
+                        "TECHS COMMUNITY"}
+                    </strong>
+                  </p>
+                  <a class="text-link" href={routes.article(featured.id)}>
+                    Ler artigo <span>→</span>
+                  </a>
+                </div>
               </div>
             </article>
           </section>
@@ -223,6 +248,12 @@ const formatDate = (date: Date) =>
             <div class="records-grid">
               {recentPosts.map((post, index) => (
                 <article class="record-card" id={`registro-${post.id}`}>
+                  <div class="win-title">
+                    <span>REGISTRO {String(index + 1).padStart(2, "0")}</span>
+                    <span class="win-control" aria-hidden="true">
+                      ×
+                    </span>
+                  </div>
                   <div class="card-image">
                     <Image
                       src={post.data.cover}
@@ -232,9 +263,6 @@ const formatDate = (date: Date) =>
                       format={post.data.cover.format === "svg" ? "svg" : "webp"}
                       loading="lazy"
                     />
-                    <span class="record-number">
-                      {String(index + 1).padStart(2, "0")}
-                    </span>
                   </div>
                   <div class="card-body">
                     <div class="record-meta">
@@ -293,7 +321,7 @@ const formatDate = (date: Date) =>
                     <strong>{name}</strong>
                     <small>{description}</small>
                   </div>
-                  <i aria-hidden="true">◆</i>
+                  <i class="win-radio" aria-hidden="true" />
                 </li>
               ))
             }
@@ -315,19 +343,23 @@ const formatDate = (date: Date) =>
         </div>
         <ol class="join-steps">
           <li>
-            <span>01</span><strong>Abra uma issue</strong>
+            <span><i class="win-checkbox" aria-hidden="true"></i>01</span
+            ><strong>Abra uma issue</strong>
             <p>Solicite seu acesso no GitHub da comunidade.</p>
           </li>
           <li>
-            <span>02</span><strong>Aguarde a validação</strong>
+            <span><i class="win-checkbox" aria-hidden="true"></i>02</span
+            ><strong>Aguarde a validação</strong>
             <p>A equipe confere o pedido e envia o convite.</p>
           </li>
           <li>
-            <span>03</span><strong>Entre no WhatsApp</strong>
+            <span><i class="win-checkbox" aria-hidden="true"></i>03</span
+            ><strong>Entre no WhatsApp</strong>
             <p>Escolha os grupos e assuntos que mais interessam.</p>
           </li>
           <li>
-            <span>04</span><strong>Compartilhe</strong>
+            <span><i class="win-checkbox" aria-hidden="true"></i>04</span
+            ><strong>Compartilhe</strong>
             <p>Conhecimento, vagas, ideias e uns memes também.</p>
           </li>
         </ol>
@@ -336,7 +368,7 @@ const formatDate = (date: Date) =>
             Ao entrar, respeite as pessoas participantes e o Código de Conduta.
           </p>
           <a
-            class="button button-primary"
+            class="win-btn win-btn-primary"
             href={joinUrl}
             target="_blank"
             rel="noreferrer">Solicitar acesso ↗</a
@@ -360,7 +392,7 @@ const formatDate = (date: Date) =>
           infraestrutura.
         </p>
         <a
-          class="button button-primary"
+          class="win-btn win-btn-primary"
           href={joinUrl}
           target="_blank"
           rel="noreferrer">Abrir solicitação no GitHub ↗</a
@@ -388,6 +420,7 @@ const formatDate = (date: Date) =>
   :global(body) {
     min-width: 320px;
     background-image:
+      url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch' result='noise'/><feColorMatrix in='noise' type='matrix' values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.05 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>"),
       linear-gradient(
         to right,
         color-mix(in srgb, var(--color-border) 7%, transparent) 1px,
@@ -398,7 +431,10 @@ const formatDate = (date: Date) =>
         color-mix(in srgb, var(--color-border) 5%, transparent) 1px,
         transparent 1px
       );
-    background-size: 80px 80px;
+    background-size:
+      180px 180px,
+      80px 80px,
+      80px 80px;
   }
 
   .shell {
@@ -421,8 +457,8 @@ const formatDate = (date: Date) =>
   .site-header {
     position: relative;
     z-index: 10;
-    border-bottom: 1px solid var(--color-border);
-    background: color-mix(in srgb, var(--color-bg) 94%, transparent);
+    border-bottom: var(--chrome-border) solid var(--color-border);
+    background: var(--color-bg);
   }
   .header-inner {
     min-height: 5.25rem;
@@ -444,9 +480,11 @@ const formatDate = (date: Date) =>
     place-items: center;
     width: 2.35rem;
     aspect-ratio: 1;
-    border: 2px solid var(--color-text);
+    border: var(--chrome-border) solid var(--color-border);
+    background: var(--color-bg);
+    box-shadow: 2px 2px 0 var(--color-border);
     color: var(--color-brand);
-    font: 900 0.75rem/1 var(--font-mono);
+    font: 800 0.75rem/1 var(--font-mono);
   }
   nav {
     display: flex;
@@ -510,48 +548,30 @@ const formatDate = (date: Date) =>
     gap: 0.75rem;
     margin-top: 2.2rem;
   }
-  .button {
-    min-height: 46px;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 1.2rem;
-    padding: 0.75rem 1rem;
-    border: 1px solid var(--color-border);
-    text-decoration: none;
-    font: 700 0.72rem/1 var(--font-mono);
-    letter-spacing: 0.05em;
-    text-transform: uppercase;
-  }
-  .button-primary {
-    background: var(--color-brand);
-    color: var(--color-brand-contrast);
-    border-color: var(--color-brand);
-  }
-  .button-primary:hover {
-    background: var(--color-text);
-    color: var(--color-bg);
-    border-color: var(--color-text);
-  }
-  .button-ghost:hover {
-    color: var(--color-brand);
-    border-color: var(--color-brand);
+  .hero-actions .win-btn span {
+    font-size: 0.9em;
   }
 
   .signal-panel {
-    border: 1px solid var(--color-border);
+    border: var(--chrome-border) solid var(--color-border);
     background: var(--color-surface);
-    box-shadow: 12px 12px 0
-      color-mix(in srgb, var(--color-border) 25%, transparent);
+    box-shadow: 8px 8px 0 var(--color-border);
   }
   .signal-head {
     display: flex;
     justify-content: space-between;
     gap: 1rem;
-    padding: 0.8rem 1rem;
-    border-bottom: 1px solid var(--color-border);
+    padding: 0.6rem 0.85rem;
+    border-bottom: var(--chrome-border) solid var(--color-border);
+    background-color: var(--color-bg);
+    background-image: var(--chrome-dots);
+    background-size: 7px 7px;
     font: 600 0.62rem/1 var(--font-mono);
     letter-spacing: 0.08em;
+  }
+  .signal-head span:first-child {
+    padding: 0.2rem 0.4rem;
+    background: var(--color-bg);
   }
   .live {
     color: var(--color-brand);
@@ -599,9 +619,14 @@ const formatDate = (date: Date) =>
 
   .ticker {
     overflow: hidden;
-    border-block: 1px solid var(--color-border);
-    background: var(--color-text);
-    color: var(--color-bg);
+    border-block: var(--chrome-border) solid var(--color-border);
+    background-color: var(--color-brand);
+    background-image: radial-gradient(
+      color-mix(in srgb, white 30%, transparent) 1px,
+      transparent 1.4px
+    );
+    background-size: 9px 9px;
+    color: var(--color-brand-contrast);
   }
   .ticker div {
     width: max-content;
@@ -612,7 +637,7 @@ const formatDate = (date: Date) =>
     letter-spacing: 0.08em;
   }
   .ticker b {
-    color: var(--color-brand);
+    color: color-mix(in srgb, var(--color-surface) 55%, white);
   }
   .section {
     padding-block: clamp(4.5rem, 9vw, 8rem);
@@ -624,7 +649,7 @@ const formatDate = (date: Date) =>
     gap: 2rem;
     margin-bottom: 2rem;
     padding-bottom: 1.2rem;
-    border-bottom: 2px solid var(--color-border);
+    border-bottom: var(--chrome-border) solid var(--color-border);
   }
   .section-heading h2,
   .categories h2,
@@ -645,17 +670,20 @@ const formatDate = (date: Date) =>
   }
 
   .featured-record {
+    border: var(--chrome-border) solid var(--color-border);
+    background: var(--color-surface);
+    box-shadow: var(--chrome-shadow);
+  }
+  .featured-body {
     display: grid;
     grid-template-columns: minmax(0, 1.15fr) minmax(20rem, 0.85fr);
-    border: 1px solid var(--color-border);
-    background: var(--color-surface);
   }
   .featured-image {
     position: relative;
     min-height: 25rem;
     display: grid;
     place-items: center;
-    border-right: 1px solid var(--color-border);
+    border-right: var(--chrome-border) solid var(--color-border);
     overflow: hidden;
     background: var(--color-bg);
   }
@@ -671,6 +699,7 @@ const formatDate = (date: Date) =>
     top: 1rem;
     left: 1rem;
     padding: 0.5rem 0.7rem;
+    border: 1.5px solid var(--color-border);
     background: var(--color-brand);
     color: var(--color-brand-contrast);
     font: 800 0.62rem/1 var(--font-mono);
@@ -686,7 +715,7 @@ const formatDate = (date: Date) =>
     display: flex;
     justify-content: space-between;
     gap: 1rem;
-    color: var(--color-brand);
+    color: var(--color-brand-strong);
     font: 700 0.62rem/1.4 var(--font-mono);
     letter-spacing: 0.05em;
     text-transform: uppercase;
@@ -714,7 +743,7 @@ const formatDate = (date: Date) =>
   .text-link {
     width: fit-content;
     margin-top: 1rem;
-    color: var(--color-brand);
+    color: var(--color-brand-strong);
     font: 800 0.72rem/1 var(--font-mono);
     text-decoration-thickness: 2px;
     text-underline-offset: 0.35rem;
@@ -730,26 +759,16 @@ const formatDate = (date: Date) =>
     display: flex;
     min-width: 0;
     flex-direction: column;
-    border: 1px solid var(--color-border);
+    border: var(--chrome-border) solid var(--color-border);
     background: var(--color-surface);
+    box-shadow: var(--chrome-shadow);
   }
   .card-image {
     position: relative;
     aspect-ratio: 16 / 9;
     overflow: hidden;
-    border-bottom: 1px solid var(--color-border);
+    border-bottom: var(--chrome-border) solid var(--color-border);
     background: var(--color-bg);
-  }
-  .record-number {
-    position: absolute;
-    right: 0;
-    bottom: 0;
-    min-width: 2.6rem;
-    padding: 0.45rem;
-    background: var(--color-text);
-    color: var(--color-bg);
-    font: 700 0.7rem/1 var(--font-mono);
-    text-align: center;
   }
   .card-body {
     display: flex;
@@ -767,8 +786,9 @@ const formatDate = (date: Date) =>
     width: fit-content;
     margin-top: 1rem;
     padding: 0.35rem 0.5rem;
-    border: 1px solid var(--color-alert);
-    color: var(--color-alert);
+    border: 1.5px solid var(--color-border);
+    background: var(--color-alert);
+    color: var(--color-brand-contrast);
     font: 700 0.58rem/1 var(--font-mono);
   }
   .empty-state {
@@ -779,8 +799,12 @@ const formatDate = (date: Date) =>
 
   .categories {
     padding-block: clamp(4rem, 8vw, 7rem);
-    background: var(--color-text);
+    border-block: var(--chrome-border) solid var(--color-border);
+    background: var(--color-brand);
     color: var(--color-bg);
+  }
+  .categories .eyebrow {
+    color: color-mix(in srgb, var(--color-surface) 55%, white);
   }
   .categories-inner {
     display: grid;
@@ -793,17 +817,18 @@ const formatDate = (date: Date) =>
   }
   .categories h2 + p {
     max-width: 29rem;
-    color: color-mix(in srgb, var(--color-bg) 68%, transparent);
+    color: color-mix(in srgb, var(--color-bg) 80%, transparent);
   }
   .categories ul {
     margin: 0;
     padding: 0;
-    border-top: 1px solid color-mix(in srgb, var(--color-bg) 35%, transparent);
+    border-top: var(--chrome-border) solid
+      color-mix(in srgb, var(--color-bg) 40%, transparent);
     list-style: none;
   }
   .categories li {
     border-bottom: 1px solid
-      color-mix(in srgb, var(--color-bg) 35%, transparent);
+      color-mix(in srgb, var(--color-bg) 40%, transparent);
   }
   .topic-row {
     min-height: 4.5rem;
@@ -817,7 +842,7 @@ const formatDate = (date: Date) =>
     gap: 0.25rem;
   }
   .topic-row span {
-    color: var(--color-brand);
+    color: color-mix(in srgb, var(--color-surface) 55%, white);
     font: 700 0.65rem/1 var(--font-mono);
   }
   .topic-row strong {
@@ -825,12 +850,12 @@ const formatDate = (date: Date) =>
     text-transform: uppercase;
   }
   .topic-row small {
-    color: color-mix(in srgb, var(--color-bg) 62%, transparent);
+    color: color-mix(in srgb, var(--color-bg) 80%, transparent);
     font-size: 0.74rem;
   }
   .topic-row i {
-    color: var(--color-brand);
-    font-style: normal;
+    width: 1rem;
+    height: 1rem;
   }
 
   .join {
@@ -848,22 +873,25 @@ const formatDate = (date: Date) =>
     grid-template-columns: repeat(4, 1fr);
     margin: 0;
     padding: 0;
-    border: 1px solid var(--color-border);
+    border: var(--chrome-border) solid var(--color-border);
     background: var(--color-surface);
+    box-shadow: var(--chrome-shadow);
     list-style: none;
   }
   .join-steps li {
     min-height: 13rem;
     padding: 1.4rem;
-    border-right: 1px solid var(--color-border);
+    border-right: var(--chrome-border) solid var(--color-border);
   }
   .join-steps li:last-child {
-    border: 0;
+    border-right: 0;
   }
   .join-steps span {
-    display: block;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
     margin-bottom: 2.5rem;
-    color: var(--color-brand);
+    color: var(--color-brand-strong);
     font: 800 0.72rem/1 var(--font-mono);
   }
   .join-steps strong {
@@ -901,7 +929,7 @@ const formatDate = (date: Date) =>
     font-size: 1.1rem;
   }
   footer {
-    border-top: 1px solid var(--color-border);
+    border-top: var(--chrome-border) solid var(--color-border);
     background: var(--color-surface);
   }
   .footer-inner {
@@ -930,7 +958,7 @@ const formatDate = (date: Date) =>
       grid-template-columns: 1fr;
       gap: 3rem;
     }
-    .featured-record,
+    .featured-body,
     .categories-inner {
       grid-template-columns: 1fr;
     }
@@ -938,7 +966,7 @@ const formatDate = (date: Date) =>
       min-height: auto;
       aspect-ratio: 16 / 9;
       border-right: 0;
-      border-bottom: 1px solid var(--color-border);
+      border-bottom: var(--chrome-border) solid var(--color-border);
     }
     .records-grid {
       grid-template-columns: 1fr;
@@ -950,7 +978,7 @@ const formatDate = (date: Date) =>
       border-right: 0;
     }
     .join-steps li:nth-child(-n + 2) {
-      border-bottom: 1px solid var(--color-border);
+      border-bottom: var(--chrome-border) solid var(--color-border);
     }
     .card-image {
       aspect-ratio: 2 / 1;
@@ -978,7 +1006,7 @@ const formatDate = (date: Date) =>
     .hero h1 {
       font-size: clamp(2.6rem, 12vw, 3.8rem);
     }
-    .hero-actions .button {
+    .hero-actions .win-btn {
       width: 100%;
     }
     .join-steps {
@@ -988,7 +1016,7 @@ const formatDate = (date: Date) =>
     .join-steps li:nth-child(2) {
       min-height: auto;
       border-right: 0;
-      border-bottom: 1px solid var(--color-border);
+      border-bottom: var(--chrome-border) solid var(--color-border);
     }
     .join-steps li:last-child {
       border-bottom: 0;
