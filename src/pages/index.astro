@@ -6,6 +6,7 @@ import { SITE, SITE_URL, type CategoryId, categoryName } from "../consts";
 import { getPublishedPosts, selectFeatured } from "../lib/content";
 import { routes } from "../lib/links";
 import communityLogo from "../assets/techs-community-logo.png";
+import communityLogoPixel from "../assets/techs-community-logo-pixel.png";
 import "../styles/global.css";
 
 const posts = await getPublishedPosts();
@@ -129,8 +130,8 @@ const formatDate = (date: Date) =>
           </div>
           <div class="signal-visual">
             <Image
-              src={communityLogo}
-              alt="Arte oficial da Techs Community: três pessoas de terno com computadores e circuitos no lugar das cabeças."
+              src={communityLogoPixel}
+              alt="Arte oficial da Techs Community, em tratamento retrô-pixel roxo e verde-água: três pessoas de terno com computadores e circuitos no lugar das cabeças."
               widths={[480, 720, 960]}
               sizes="(max-width: 800px) calc(100vw - 3rem), 40vw"
               format="webp"
@@ -593,6 +594,7 @@ const formatDate = (date: Date) =>
     width: 100%;
     height: auto;
     aspect-ratio: 1;
+    image-rendering: pixelated;
   }
   .signal-stats {
     display: grid;

@@ -24,4 +24,15 @@ export default tseslint.config(
       "@typescript-eslint/triple-slash-reference": "off",
     },
   },
+  {
+    // Scripts utilitários (design.md §3) rodam em Node, fora do bundle do site.
+    files: ["scripts/**/*.mjs"],
+    languageOptions: {
+      globals: {
+        process: "readonly",
+        console: "readonly",
+        Buffer: "readonly",
+      },
+    },
+  },
 );
